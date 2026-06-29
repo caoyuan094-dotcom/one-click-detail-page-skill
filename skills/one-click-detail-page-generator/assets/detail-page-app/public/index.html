@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>一键详情页 V1</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="product-bar">
+        <div class="brand-block">
+          <div class="brand-mark">DP</div>
+          <div>
+            <div class="eyebrow">Detail Page Studio</div>
+            <h1>一键详情页生成器</h1>
+          </div>
+        </div>
+        <div class="run-meta">
+          <span id="geminiStatus" class="status-dot">分析模型检测中</span>
+          <span id="imageStatus" class="status-dot">生图模型检测中</span>
+        </div>
+      </header>
+
+      <main class="wizard-shell">
+        <aside class="step-sidebar">
+          <div class="sidebar-title">生成流程</div>
+          <button class="step-nav is-active" data-step-target="1">
+            <span>01</span>
+            <strong>上传素材</strong>
+            <small>产品图、细节图、参考图</small>
+          </button>
+          <button class="step-nav" data-step-target="2">
+            <span>02</span>
+            <strong>填写信息</strong>
+            <small>名称、平台、卖点、风格</small>
+          </button>
+          <button class="step-nav" data-step-target="3">
+            <span>03</span>
+            <strong>确认规划</strong>
+            <small>逐屏确认卖什么</small>
+          </button>
+          <button class="step-nav" data-step-target="4">
+            <span>04</span>
+            <strong>生成导出</strong>
+            <small>单屏生成与下载</small>
+          </button>
+        </aside>
+
+        <section class="wizard-main">
+          <section class="wizard-step is-active" data-step="1">
+            <div class="step-header">
+              <div>
+                <div class="eyebrow">Step 01</div>
+                <h2>上传真实产品素材</h2>
+              </div>
+              <p>生图会尽量围绕这些图片做规划。产品主体越清楚，后面越不容易跑偏。</p>
+            </div>
+
+            <label class="dropzone large-dropzone" for="imageInput">
+              <input id="imageInput" type="file" accept="image/*" multiple />
+              <span class="drop-title">上传产品图</span>
+              <span class="drop-copy">主图、多角度图、细节图、包装图、场景图、证书图、参考风格图</span>
+            </label>
+            <div id="thumbGrid" class="thumb-grid"></div>
+
+            <div class="footer-actions">
+              <p id="inputHint" class="hint">至少上传一张产品图。下一步会填写产品名称和生成设置。</p>
+              <button class="primary-btn next-btn" data-next-step="2">下一步：填写信息</button>
+            </div>
+          </section>
+
+          <section class="wizard-step" data-step="2">
+            <div class="step-header">
+              <div>
+                <div class="eyebrow">Step 02</div>
+                <h2>填写基础信息</h2>
+              </div>
+              <p>卖点可以多写，也可以少写。图片和产品名称会一起交给分析模型。</p>
+            </div>
+
+            <div class="settings-grid">
+              <label class="field">
+                <span>产品名称</span>
+                <input id="productName" placeholder="例如：轻便折叠轮椅 / 婴儿恒温水壶 / 便携露营灯" />
+              </label>
+              <label class="field">
+                <span>发布平台</span>
+                <select id="platform">
+                  <option>淘宝</option>
+                  <option>天猫</option>
+                  <option>京东</option>
+                  <option>拼多多</option>
+                  <option>抖店</option>
+                  <option>亚马逊</option>
+                  <option>Shopify</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>生成屏数</span>
+                <select id="screenCount">
+                  <option value="5">5 屏</option>
+                  <option value="6" selected>6 屏</option>
+                  <option value="7">7 屏</option>
+                  <option value="8">8 屏</option>
+                  <option value="9">9 屏</option>
+                  <option value="10">10 屏</option>
+                  <option value="11">11 屏</option>
+                  <option value="12">12 屏</option>
+                  <option value="13">13 屏</option>
+                  <option value="14">14 屏</option>
+                  <option value="15">15 屏</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>语言</span>
+                <select id="language">
+                  <option>中文</option>
+                  <option>英文</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>图片尺寸</span>
+                <select id="ratio">
+                  <option value="750x1000 单屏">750x1000 单屏</option>
+                  <option value="750x1200 长屏">750x1200 长屏</option>
+                  <option value="750x900 紧凑屏">750x900 紧凑屏</option>
+                  <option value="800x800 主图方图">800x800 主图方图</option>
+                  <option value="1000x1000 亚马逊主图">1000x1000 亚马逊主图</option>
+                  <option value="1500x1500 亚马逊高清方图">1500x1500 亚马逊高清方图</option>
+                  <option value="1125x2436 抖店长图">1125x2436 抖店长图</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>输出分辨率</span>
+                <select id="resolution">
+                  <option value="1k" selected>1K 快速预览</option>
+                  <option value="2k">2K 高清出图</option>
+                  <option value="4k">4K 超清出图</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>生图模型</span>
+                <select id="imageModel">
+                  <option value="gpt-image-2" selected>GPT Image2（文生图出图快）</option>
+                  <option value="gemini-3-pro-image-preview">Gemini 3 Pro Image Preview（图生图参考）</option>
+                  <option value="layout-compose">本地版式预览（不调用 API）</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>是否加入模特</span>
+                <select id="modelUsage">
+                  <option value="auto" selected>AI 判断</option>
+                  <option value="yes">需要模特</option>
+                  <option value="no">不要模特</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>模特类型</span>
+                <select id="modelType">
+                  <option value="auto" selected>按产品自动匹配</option>
+                  <option value="adult-baby">大人 + 婴儿</option>
+                  <option value="adult-child">大人 + 儿童</option>
+                  <option value="adult">成人模特</option>
+                  <option value="elderly">老人模特</option>
+                  <option value="hand">手部/局部演示</option>
+                  <option value="none">无人物</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="style-section">
+              <label class="field">
+                <span>视觉风格</span>
+                <select id="style">
+                  <option value="极简高级，留白充足，字体清晰，适合高客单价产品" selected>极简高级</option>
+                  <option value="温暖生活方式，真实场景，适合母婴、家居、老人用品">温暖生活方式</option>
+                  <option value="母婴亲子暖阳风，奶油色儿童房，年轻父母和婴儿真实互动">母婴亲子暖阳风</option>
+                  <option value="淘宝爆款转化风，卖点强提示，标签清晰，信息密度高但不乱">淘宝爆款转化风</option>
+                  <option value="天猫品牌旗舰店风，高端留白，品牌感强，页面节奏克制">天猫品牌旗舰店风</option>
+                  <option value="京东品质参数风，参数清楚，品质背书强，结构理性">京东品质参数风</option>
+                  <option value="小红书生活方式风，真实家居场景，情绪价值强，画面柔和">小红书生活方式风</option>
+                  <option value="科技感深色，光效克制，适合数码、工业、智能产品">科技深色</option>
+                  <option value="清新自然，浅色背景，适合食品、个护、日用品">清新自然</option>
+                  <option value="工厂实力展示，突出材质、工艺、证书和生产能力">工厂实力</option>
+                  <option value="医护级可信赖风，白色洁净背景，强调安全、标准、专业">医护级可信赖风</option>
+                  <option value="轻奢家居风，浅木色、奶油白、柔和自然光，适合高客单家居母婴">轻奢家居风</option>
+                  <option value="户外运动功能风，真实户外场景，强调耐用、便携和性能">户外运动功能风</option>
+                  <option value="黑金高端礼盒风，高对比、精致光影、适合礼品和高端产品">黑金高端礼盒风</option>
+                </select>
+              </label>
+            </div>
+
+            <label class="field">
+              <span>卖点 / 参数 / 说明</span>
+              <textarea id="sellingPoints" rows="7" placeholder="例如：适合老人出行的轻便折叠轮椅，主打轻便、安全、好收纳。"></textarea>
+            </label>
+
+            <label class="field">
+              <span>优秀详情页参考链接</span>
+              <textarea id="referenceLinks" rows="4" placeholder="可粘贴淘宝、天猫、京东、抖店、竞品独立站链接，每行一个。"></textarea>
+            </label>
+
+            <label class="dropzone reference-dropzone" for="referenceImageInput">
+              <input id="referenceImageInput" type="file" accept="image/*" multiple />
+              <span class="drop-title">上传参考图</span>
+              <span class="drop-copy">优秀详情页截图、竞品风格图、品牌视觉参考图。只用于学习风格，不替代产品主体。</span>
+            </label>
+            <div id="referenceThumbGrid" class="thumb-grid compact"></div>
+
+            <div class="footer-actions">
+              <button class="secondary-btn prev-btn" data-prev-step="1">上一步</button>
+              <button id="planBtn" class="primary-btn">生成详情页规划</button>
+            </div>
+          </section>
+
+          <section class="wizard-step" data-step="3">
+            <div class="step-header">
+              <div>
+                <div class="eyebrow">Step 03</div>
+                <h2>确认每一屏怎么卖</h2>
+              </div>
+              <p>先确认规划，再进入生成。这里不会一次生成所有图，避免错误扩大。</p>
+            </div>
+
+            <div id="planSummary" class="summary-box empty">
+              生成规划后，这里会显示整套详情页的销售策略。
+            </div>
+            <div id="screenList" class="screen-list"></div>
+
+            <div class="footer-actions">
+              <button class="secondary-btn prev-btn" data-prev-step="2">上一步</button>
+              <button class="primary-btn next-btn" data-next-step="4" id="toGenerateBtn" disabled>下一步：生成图片</button>
+            </div>
+          </section>
+
+          <section class="wizard-step" data-step="4">
+            <div class="step-header">
+              <div>
+                <div class="eyebrow">Step 04</div>
+                <h2>逐屏生成与修改</h2>
+              </div>
+              <p>选择一屏生成，不满意就只重做这一屏。</p>
+            </div>
+
+            <div class="generation-layout">
+              <div class="generation-left">
+                <div class="phone-shell">
+                  <div class="phone-top"></div>
+                  <div class="preview-frame">
+                    <img id="previewImage" alt="生成预览" />
+                    <div id="previewEmpty">选择一屏后生成预览</div>
+                  </div>
+                </div>
+                <p id="outputHint" class="hint">真实产品图会作为参考输入；模型不支持时会降级为本地预览。</p>
+              </div>
+              <div class="generation-right">
+                <div class="generation-list-head">
+                  <strong>待生成页面</strong>
+                  <small>选择一屏单独生成，或一键生成全部</small>
+                </div>
+                <div id="generationScreenList" class="generation-screen-list"></div>
+                <div id="selectedScreen" class="selected-box empty">
+                  选择一屏查看生成要求。
+                </div>
+                <div class="command-grid">
+                  <button id="generateOneBtn" class="secondary-btn" disabled>生成当前屏</button>
+                  <button id="generateAllBtn" class="primary-btn inline" disabled>逐屏生成全部</button>
+                  <button id="downloadBtn" class="secondary-btn" disabled>下载当前屏</button>
+                  <button id="longImageBtn" class="secondary-btn" disabled>合成长图下载</button>
+                  <button id="exportPlanBtn" class="secondary-btn" disabled>导出规划 JSON</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="footer-actions">
+              <button class="secondary-btn prev-btn" data-prev-step="3">上一步</button>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

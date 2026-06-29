@@ -1,0 +1,10 @@
+.DS_Store
+.env
+.env.local
+.edgeone/
+.vercel/
+.playwright-cli/
+*.log
+*.zip
+tef_dist/
+node_modules/

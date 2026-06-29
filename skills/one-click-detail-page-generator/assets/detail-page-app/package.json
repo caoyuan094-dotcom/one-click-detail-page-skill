@@ -1,0 +1,11 @@
+{
+  "name": "one-click-detail-page",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "./start.sh",
+    "start": "./start.sh",
+    "check": "node --check server.js && bash -n start.sh"
+  }
+}

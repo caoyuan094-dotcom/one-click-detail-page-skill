@@ -1,0 +1,4 @@
+interface:
+  display_name: "One-Click Detail Page Generator"
+  short_description: "Build and deploy an ecommerce detail-page generator"
+  default_prompt: "Use $one-click-detail-page-generator to package, configure, or deploy an ecommerce detail-page generator without exposing API keys."

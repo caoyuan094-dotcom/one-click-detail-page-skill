@@ -1,0 +1,10 @@
+{
+  "name": "one-click-detail-page-edgeone",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/hold.js",
+    "build": "echo static"
+  }
+}
