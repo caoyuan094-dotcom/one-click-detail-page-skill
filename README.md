@@ -8,6 +8,16 @@
 skills/one-click-detail-page-generator/assets/detail-page-app
 ```
 
+## 界面预览
+
+![上传产品素材](assets/screenshots/01-upload-materials.png)
+
+![填写生成设置](assets/screenshots/02-settings.png)
+
+![逐屏生成与导出](assets/screenshots/03-generate-export.png)
+
+![移动端界面](assets/screenshots/04-mobile.png)
+
 ## 重要说明
 
 - 仓库不包含任何 API key。

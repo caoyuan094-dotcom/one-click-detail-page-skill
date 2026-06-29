@@ -10,8 +10,6 @@ const port = Number(process.env.PORT || 3042);
 
 loadEnvFile(path.join(__dirname, ".env.local"));
 loadEnvFile(path.join(__dirname, ".env"));
-loadEnvFile("/Users/caoyuan/Desktop/公众号文章/.env");
-loadEnvFile("/Users/caoyuan/Desktop/产品定义ai/.env.local");
 
 const corsHeaders = {
   "access-control-allow-origin": "*",
